@@ -176,10 +176,10 @@ app.get('/posts', function (_, res) { return __awaiter(void 0, void 0, void 0, f
 app.delete('/posts/:id', function (req, res) {
     Post_1.default.findByIdAndDelete(req.params.id).then(function () { return res.send('Deleted'); }).catch(function (error) { return console.log(error); });
 });
-app.use(express_1.default.static(path_1.default.join(__dirname, "build")));
-app.use(express_1.default.static("app/build"));
+app.use(express_1.default.static(path_1.default.join(__dirname, "..", "build")));
+app.use(express_1.default.static("build"));
 app.use(function (_, res) {
-    res.sendFile(path_1.default.join(__dirname, "build", 'index.html'));
+    res.sendFile(path_1.default.join(__dirname, "..", "build", 'index.html'));
 });
 app.listen(config_1.PORT, function () {
     console.log('App is listening on ' + config_1.PORT);
