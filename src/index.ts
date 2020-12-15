@@ -22,7 +22,11 @@ app.get('/users', async(_,res)=>{
     res.send(await User.find({}))
 })
 app.post('/users',upload.single('image') ,(req,res)=>{
-    User.create({...JSON.parse(req.body.data), image: req.file.filename}).then(user=>{
+    let newUser = JSON.parse(req.body.data)
+    if(req.file && req.file.filename){
+        newUser.image= req.file.filename
+    }
+    User.create(newUser).then(user=>{
         res.send(jwt.sign({id : user._id}, SECRET))
     }).catch(err=> console.log(err)) 
   
