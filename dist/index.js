@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -61,10 +50,10 @@ var upload_1 = __importDefault(require("./utils/upload"));
 var Post_1 = __importDefault(require("./models/Post"));
 var app = express_1.default();
 app.use(cors_1.default({
-    origin: 'http://localhost:3000'
+    origin: ['https://tender-euler-c623cf.netlify.app', 'https://nasser-react.herokuapp.com']
 }));
 app.use(express_1.default.json());
-app.use('/uploads', express_1.default.static('uploads'));
+app.use('/uploads', express_1.default.static('app/uploads'));
 mongoose_1.default.connect(config_1.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(function () { return console.log('MongoDB connected successfully'); }).catch(function (err) { return console.log(err); });
 app.get('/users', function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -81,7 +70,11 @@ app.get('/users', function (_, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); });
 app.post('/users', upload_1.default.single('image'), function (req, res) {
-    User_1.default.create(__assign(__assign({}, JSON.parse(req.body.data)), { image: req.file.filename })).then(function (user) {
+    var newUser = JSON.parse(req.body.data);
+    if (req.file && req.file.filename) {
+        newUser.image = req.file.filename;
+    }
+    User_1.default.create(newUser).then(function (user) {
         res.send(jsonwebtoken_1.default.sign({ id: user._id }, config_1.SECRET));
     }).catch(function (err) { return console.log(err); });
 });
@@ -183,10 +176,10 @@ app.get('/posts', function (_, res) { return __awaiter(void 0, void 0, void 0, f
 app.delete('/posts/:id', function (req, res) {
     Post_1.default.findByIdAndDelete(req.params.id).then(function () { return res.send('Deleted'); }).catch(function (error) { return console.log(error); });
 });
-app.use(express_1.default.static(path_1.default.join(__dirname, "..", "build")));
-app.use(express_1.default.static("build"));
+app.use(express_1.default.static(path_1.default.join(__dirname, "build")));
+app.use(express_1.default.static("app/build"));
 app.use(function (_, res) {
-    res.sendFile(path_1.default.join(__dirname, "..", "build", 'index.html'));
+    res.sendFile(path_1.default.join(__dirname, "build", 'index.html'));
 });
 app.listen(config_1.PORT, function () {
     console.log('App is listening on ' + config_1.PORT);
