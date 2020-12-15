@@ -81,10 +81,9 @@ app.get('/posts', async(_,res)=>{
 app.delete('/posts/:id',(req,res)=>{
     Post.findByIdAndDelete(req.params.id).then(()=> res.send('Deleted')).catch(error=> console.log(error))
 })
-app.use(express.static(path.join(__dirname, "build")));
-app.use(express.static("app/build"));
+
 app.use((_, res) => {
-    res.sendFile(path.join(__dirname, "build", 'index.html'));
+    res.sendFile("index.html", { root: path.join(__dirname, "./build/") });
 });
 app.listen(PORT, ()=>{
     console.log('App is listening on '+ PORT)
