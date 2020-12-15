@@ -13,7 +13,7 @@ app.use(cors({
 }) as RequestHandler)
 
 app.use(express.json())
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static('app/uploads'))
 
 mongoose.connect(MONGODB_URI!, {useNewUrlParser: true ,useUnifiedTopology: true})
 .then(()=> console.log('MongoDB connected successfully')).catch(err=> console.log(err))
@@ -82,7 +82,7 @@ app.delete('/posts/:id',(req,res)=>{
     Post.findByIdAndDelete(req.params.id).then(()=> res.send('Deleted')).catch(error=> console.log(error))
 })
 app.use(express.static(path.join(__dirname, "build")));
-app.use(express.static("build"));
+app.use(express.static("app/build"));
 app.use((_, res) => {
     res.sendFile(path.join(__dirname, "build", 'index.html'));
 });
