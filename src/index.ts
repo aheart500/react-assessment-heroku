@@ -9,7 +9,7 @@ import upload from './utils/upload'
 import Post, { PostDocument } from './models/Post'
 const app = express()
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://nasser-react.herokuapp.com', 'https://tender-euler-c623cf.netlify.app']
+    origin: ['https://tender-euler-c623cf.netlify.app', 'https://nasser-react.herokuapp.com']
 }) as RequestHandler)
 
 app.use(express.json())
