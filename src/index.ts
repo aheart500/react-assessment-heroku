@@ -13,7 +13,7 @@ app.use(cors({
 }) as RequestHandler)
 
 app.use(express.json())
-app.use('/uploads', express.static('app/uploads'))
+app.use('/uploads', express.static('uploads'))
 
 mongoose.connect(MONGODB_URI!, {useNewUrlParser: true ,useUnifiedTopology: true})
 .then(()=> console.log('MongoDB connected successfully')).catch(err=> console.log(err))

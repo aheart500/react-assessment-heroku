@@ -53,7 +53,7 @@ app.use(cors_1.default({
     origin: ['https://tender-euler-c623cf.netlify.app', 'https://nasser-react.herokuapp.com']
 }));
 app.use(express_1.default.json());
-app.use('/uploads', express_1.default.static('app/uploads'));
+app.use('/uploads', express_1.default.static('uploads'));
 mongoose_1.default.connect(config_1.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(function () { return console.log('MongoDB connected successfully'); }).catch(function (err) { return console.log(err); });
 app.get('/users', function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
